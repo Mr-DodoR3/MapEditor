@@ -1,27 +1,23 @@
-class Obj {
-  name;
+class Player {
   img;
   x;
   y;
   w;
   h;
-  s;
   catch;
   select;
+  //mouseX_relative;
+  //mouseY_relative;
 
   black = 100;
   black_plus = 5;
 
-  constructor(tname, timg) {
-    this.catch = true;
-    this.select = true;
-    this.name = tname;
+  constructor(timg) {
     this.img = timg;
-    this.w = this.img.width;
-    this.h = this.img.height;
-    this.x = (mouseX - this.w * global_s / 4 - global_x) / global_s;
-    this.y = (mouseY - this.h * global_s / 4 - global_y) / global_s;
-    this.s = 0.5;
+    this.x = 30;
+    this.y = 325;
+    this.catch = false;
+    this.select = false;
   }
 
   loop(push) {
@@ -31,9 +27,11 @@ class Obj {
     }
     if (this.select) tint(this.black, this.black, this.black);
     else tint(255, 255, 255);
-    image(this.img, this.x * global_s + global_x, this.y * global_s + global_y, this.w * this.s * global_s, this.h * this.s * global_s);
+    this.w = this.img.width / 10;
+    this.h = this.img.height / 10;
+    image(this.img, this.x * global_s + global_x, this.y * global_s + global_y, this.w * global_s, this.h * global_s);
     noTint();
-
+    
     if (this.catch) {
       this.x += (mouseX - bmouseX) / global_s;
       this.y += (mouseY - bmouseY) / global_s;
@@ -42,10 +40,10 @@ class Obj {
       if (!(push)) {
         this.catch = false;
         if (this.y > 440) {
-          return true;
+          this.x = 30;
+          this.y = 325;
         }
       }
     }
-    return false;
   }
 }
