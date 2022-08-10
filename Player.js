@@ -39,7 +39,7 @@ class Player {
       //this.y = mouseY + this.mouseY_relative;
       if (!(push)) {
         this.catch = false;
-        if (this.y > 440) {
+        if (this.x < 0 || this.x + this.w > MAPSIZE_X || this.y + this.h < 0 || this.y > MAPSIZE_Y) {
           this.x = 30;
           this.y = 325;
         }

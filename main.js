@@ -11,7 +11,7 @@ var obj_data = [];
 
 var mouse_push = false;
 
-var select = -1;
+var select = -3;
 
 var global_x;
 var global_y;
@@ -70,7 +70,16 @@ function draw() {
   }
   image(back_img[back_img_num], global_x, global_y, MAPSIZE_X * global_s, MAPSIZE_Y * global_s);
   player.loop(mouse_push);
-  select = -1;
+
+  if (mouseX < 0 || mouseX > MAPSIZE_X || mouseY < 0 || mouseY > MAPSIZE_Y) {
+    select = -3;
+    document.removeEventListener("mousewheel", disableScroll, { passive: false } );
+  }
+  else {
+    select = -1;
+    document.addEventListener("mousewheel", disableScroll, { passive: false } );
+  };
+
   if (player.select) select = -2;
   for (let i = 0; i < obj_data.length; i++) {
     if (obj_data[i].select) select = i;
@@ -90,6 +99,7 @@ function ui() {
   fill("#FFF");
   textSize(18);
   try {
+    if (select == -3) text("", 2, 20);
     if (select == -2) text("番号:NaN, プレイヤー, " + "X:" + parseInt(player.x) + ", Y:"+ parseInt(player.y) + ", サイズ:10%", 2, 20);
     if (select == -1) text("番号:未選択, カメラ, " + "X:" + parseInt(global_x) + ", Y:"+ parseInt(global_y) + ", 倍率:" + parseInt(global_s*100) + "%", 2, 20);
     if (select > -1) text("番号:" + select + ", " + obj_data[select].name + ", " + "X:" + parseInt(obj_data[select].x) + ", Y:"+ parseInt(obj_data[select].y) + ", サイズ:" + parseInt(obj_data[select].s*100) + "%", 2, 20);
@@ -113,7 +123,7 @@ function statusbar() {
     rect(x*box_size + 10, 450, box_size, box_size);
     image(timg, x*box_size + 10 + (box_size - timg.width*obj_img_size[x])/2, 450 + (box_size - timg.height*obj_img_size[x])/2, timg.width*obj_img_size[x], timg.height*obj_img_size[x]);
     textSize(18);
-    text(obj_img[x].name, x*box_size + 10, 545);
+    text(obj_img[x].name, x * box_size + 10, 545);
     x++;
   });
 }
@@ -141,7 +151,7 @@ function mousePressed() {
   let box_size = UI_BOX_SIZE;
   let x = 0;
   obj_img.forEach(function(timg) {
-    if (mouseX > x*box_size + 10 && mouseX < (x+1)*box_size + 10 && mouseY > 450 && mouseY < 450 + box_size) {
+    if (mouseX > x*box_size + 10 && mouseX < (x + 1) * box_size + 10 && mouseY > 450 && mouseY < 450 + box_size) {
       obj_data.push(new Obj(timg.name, timg.img));
       select = x;
     }
@@ -235,4 +245,9 @@ function keyReleased() {
   if (key == 'a') contller.a = false;
   if (key == 's') contller.s = false;
   if (key == 'd') contller.d = false;
+}
+
+//スクロール禁止
+function disableScroll(event) {
+  event.preventDefault();
 }

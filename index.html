@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width-device-width, initial-scale-1.0">
     <title>マップエディタ</title>
+    <link rel="stylesheet" href="index.css">
     <script src="https://cdn.jsdelivr.net/npm/p5@0.10.2/lib/p5.js"></script>
     <script src="main.js"></script>
     <script src="obj.js"></script>
@@ -13,9 +14,13 @@
   </head>
   
   <body>
-    <h1>マップエディタWeb版1.0β</h1>
-    <p>Webブラウザ上でマップ編集できるようにしました。まぁ、操作方法とかはjar形式版とは全く違う。</p>
+    <h1>マップエディタWeb版1.1β</h1>
+    <p class="top">Webブラウザ上でマップ編集できるようにしました。まぁ、操作方法とかはjar形式版とは全く違う。</p>
     <div id="canvas_pos"></div>
-    <p>test</p>
+    <button href="#" id="link1" onclick="func1()">ダウンロード(txt版)</button>
+    <button href="#" id="link2" onclick="func2()">ダウンロード(csv版)</button>
+    <div class="manual">
+      <h2>説明</h2>
+    </div>
   </body>
 </html>
