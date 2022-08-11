@@ -3,6 +3,7 @@
 //参考--https://qiita.com/wadahiro/items/eb50ac6bbe2e18cf8813//
 
 let txt;
+let input_image = document.getElementById("input_image");
 
 function settext() {
   txt = "";
@@ -33,4 +34,27 @@ function func2() {
   link.href = window.URL.createObjectURL(blob);
   link.download = "kutc_mapdata.csv";
   link.click();
+}
+
+function init_file() {
+  img = createFileInput(add_image);
+  button = createButton("追加")
+  button.position(0, 840)
+  img.position(0, 810);
+  button.mousePressed(mouse);
+}
+
+function add_image(file) {
+  if (file.type === "image") {
+    selecting_file = file;
+  }
+}
+
+function mouse() {
+  if (selecting_file) {
+    img = createImg(selecting_file.data, '');
+    img.hide();
+    obj_img.push({ name: selecting_file.name, img: img });
+    obj_img_ui.push(img);
+  }
 }

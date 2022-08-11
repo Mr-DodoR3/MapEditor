@@ -6,11 +6,20 @@ body {
 }
 
 h1 {
-  background-color: #ddf;
+  background-color: #ccf;
   margin-top: 0px;
   padding-left: 10px;
   padding-top: 20px;
   padding-bottom: 20px;
+}
+
+h2 {
+  margin-bottom: 4px;
+}
+
+h3, ul {
+  margin-top: 4px;
+  margin-bottom: 4px;
 }
 
 .top {
@@ -24,6 +33,15 @@ h1 {
 
 button {
   margin-left: 10px;
+}
+
+input {
+  margin-left: 10px;
+}
+
+.filetext {
+  margin-left: 10px;
+  margin-bottom: 0px;
 }
 
 .manual {

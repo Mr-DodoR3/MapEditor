@@ -27,6 +27,8 @@ const MAPSIZE_X = 2048;
 const MAPSIZE_Y = 440;
 
 function setup() {
+  init_file();
+
   back_img.push(loadImage("image/haikei1.png"));
   back_img.push(loadImage("image/haikei2.png"));
   back_img.push(loadImage("image/haikei3.png"));
@@ -76,8 +78,8 @@ function draw() {
     document.removeEventListener("mousewheel", disableScroll, { passive: false } );
   }
   else {
-    select = -1;
-    document.addEventListener("mousewheel", disableScroll, { passive: false } );
+    //select = -1;
+    //document.addEventListener("mousewheel", disableScroll, { passive: false } );
   };
 
   if (player.select) select = -2;
@@ -147,6 +149,11 @@ function setsize() {
 function mousePressed() {
   print(parseInt(mouseX) + ", " + parseInt(mouseY));
   mouse_push = true;
+
+  if (mouseX > 0 && mouseX < MAPSIZE_X && mouseY > 0 && mouseY < MAPSIZE_Y) {
+    select = -1;
+    document.addEventListener("mousewheel", disableScroll, { passive: false } );
+  }
 
   let box_size = UI_BOX_SIZE;
   let x = 0;
