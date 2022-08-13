@@ -21,7 +21,7 @@ class Obj {
     this.h = this.img.height;
     this.x = (mouseX - this.w * global_s / 4 - global_x) / global_s;
     this.y = (mouseY - this.h * global_s / 4 - global_y) / global_s;
-    this.s = 0.5;
+    this.s = 1.0;
   }
 
   loop(push) {

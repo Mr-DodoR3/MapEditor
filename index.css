@@ -47,3 +47,7 @@ p {
 .manual {
   margin-left: 10px;
 }
+
+.del {
+  text-decoration: line-through;
+}

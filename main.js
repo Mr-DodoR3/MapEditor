@@ -23,8 +23,8 @@ var player;
 var contller;
 
 const UI_BOX_SIZE = 80;
-const MAPSIZE_X = 2048;
-const MAPSIZE_Y = 440;
+const MAPSIZE_X = 7680;
+const MAPSIZE_Y = 2160;
 
 function setup() {
   init_file();
@@ -53,7 +53,7 @@ function setup() {
 
   let result = document.getElementById('canvas_pos');
   //X座標2048,Y座標440
-  canvas = createCanvas(2048, 590);
+  canvas = createCanvas(1480, 590);
   canvas.parent(result);
   global_x = 0;
   global_y = 0;
@@ -70,10 +70,11 @@ function draw() {
     global_x += mouseX - bmouseX;
     global_y += mouseY - bmouseY;
   }
-  image(back_img[back_img_num], global_x, global_y, MAPSIZE_X * global_s, MAPSIZE_Y * global_s);
+  image(back_img[0], global_x, global_y, back_img[0].width * global_s, back_img[0].height * global_s);
+  //image(back_img[1], global_x, 0 - MAPSIZE_Y -  * global_s, back_img[1].width * global_s, back_img[1].height * global_s);
   player.loop(mouse_push);
 
-  if (mouseX < 0 || mouseX > MAPSIZE_X || mouseY < 0 || mouseY > MAPSIZE_Y) {
+  if (mouseX < 0 || mouseX > window || mouseY < 0 || mouseY > height) {
     select = -3;
     document.removeEventListener("mousewheel", disableScroll, { passive: false } );
   }
@@ -102,7 +103,7 @@ function ui() {
   textSize(18);
   try {
     if (select == -3) text("", 2, 20);
-    if (select == -2) text("番号:NaN, プレイヤー, " + "X:" + parseInt(player.x) + ", Y:"+ parseInt(player.y) + ", サイズ:10%", 2, 20);
+    if (select == -2) text("番号:NaN, プレイヤー, " + "X:" + parseInt(player.x) + ", Y:"+ parseInt(player.y) + ", サイズ:20%", 2, 20);
     if (select == -1) text("番号:未選択, カメラ, " + "X:" + parseInt(global_x) + ", Y:"+ parseInt(global_y) + ", 倍率:" + parseInt(global_s*100) + "%", 2, 20);
     if (select > -1) text("番号:" + select + ", " + obj_data[select].name + ", " + "X:" + parseInt(obj_data[select].x) + ", Y:"+ parseInt(obj_data[select].y) + ", サイズ:" + parseInt(obj_data[select].s*100) + "%", 2, 20);
   }
@@ -147,6 +148,7 @@ function setsize() {
 }
 
 function mousePressed() {
+  print("MAPSIZE:" + back_img[0].width + ", " + back_img[0].height);
   print(parseInt(mouseX) + ", " + parseInt(mouseY));
   mouse_push = true;
 
@@ -196,11 +198,11 @@ function mouseReleased() {
 function mouseWheel(event) {
   if (select == -1) {
     let tglobal_s = global_s + event.delta / 12500;
-    if (tglobal_s < 0.51) {
-      tglobal_s = 0.5;
+    if (tglobal_s < 0.051) {
+      tglobal_s = 0.05;
     }
-    let percent_x = mouseX / MAPSIZE_X;
-    let percent_y = mouseY / MAPSIZE_Y;
+    let percent_x = mouseX / width;
+    let percent_y = mouseY / (height - 150);
     global_x += (MAPSIZE_X * global_s - MAPSIZE_X * tglobal_s) * percent_x;
     global_y += (MAPSIZE_Y * global_s - MAPSIZE_Y * tglobal_s) * percent_y;
     global_s = tglobal_s;
@@ -222,13 +224,15 @@ function mouseWheel(event) {
 
 function keyPressed() {
   print(keyCode);
+  /*
   if (key == '1') back_img_num = 0;
   if (key == '2') back_img_num = 1;
   if (key == '3') back_img_num = 2;
+  */
 
   if (key == 'r') {
     player.x = 30;
-    player.y = 325;
+    player.y = 1935;
     global_x = 0;
     global_y = 0;
     global_s = 1.00;
