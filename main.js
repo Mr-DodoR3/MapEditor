@@ -28,26 +28,27 @@ const MAPSIZE_Y = 2160;
 
 function setup() {
   init_file();
+  create_opt_b();
 
   back_img.push(loadImage("image/haikei1.png"));
   back_img.push(loadImage("image/haikei2.png"));
   back_img.push(loadImage("image/haikei3.png"));
   player_img = loadImage("image/player.png");
-  obj_img.push({name: "標識", img: loadImage("image/hyousiki1.png")});
-  obj_img.push({name: "標識", img: loadImage("image/hyousiki2.png")});
-  obj_img.push({name: "木", img: loadImage("image/ki1.png")});
-  obj_img.push({name: "コンビニ", img: loadImage("image/konnbini1.png")});
-  obj_img.push({name: "車(赤)", img: loadImage("image/kuruma1.png")});
-  obj_img.push({name: "車(青)", img: loadImage("image/kuruma2.png")});
-  obj_img.push({name: "車(白)", img: loadImage("image/kuruma3.png")});
-  obj_img.push({name: "車(緑)", img: loadImage("image/kuruma4.png")});
-  obj_img.push({name: "ポスト", img: loadImage("image/posuto1.png")});
-  obj_img.push({name: "時計", img: loadImage("image/tokei1.png")});
-  obj_img.push({name: "トラック", img: loadImage("image/torakku1.png")});
-  obj_img.push({name: "自販機", img: loadImage("image/zihannki1.png")});
-  obj_img.push({name: "地面", img: loadImage("image/zimenn.png")});
+  obj_img.push({ name: "標識", img: loadImage("image/hyousiki1.png") });
+  obj_img.push({ name: "標識", img: loadImage("image/hyousiki2.png") });
+  obj_img.push({ name: "木", img: loadImage("image/ki1.png") });
+  obj_img.push({ name: "コンビニ", img: loadImage("image/konnbini1.png") });
+  obj_img.push({ name: "車(赤)", img: loadImage("image/kuruma1.png") });
+  obj_img.push({ name: "車(青)", img: loadImage("image/kuruma2.png") });
+  obj_img.push({ name: "車(白)", img: loadImage("image/kuruma3.png") });
+  obj_img.push({ name: "車(緑)", img: loadImage("image/kuruma4.png") });
+  obj_img.push({ name: "ポスト", img: loadImage("image/posuto1.png") });
+  obj_img.push({ name: "時計", img: loadImage("image/tokei1.png") });
+  obj_img.push({ name: "トラック", img: loadImage("image/torakku1.png") });
+  obj_img.push({ name: "自販機", img: loadImage("image/zihannki1.png") });
+  obj_img.push({ name: "地面", img: loadImage("image/zimenn.png") });
 
-  obj_img.forEach (function(timg) {
+  obj_img.forEach(function (timg) {
     obj_img_ui.push(timg.img);
   });
 
@@ -76,7 +77,7 @@ function draw() {
 
   if (mouseX < 0 || mouseX > window || mouseY < 0 || mouseY > height) {
     select = -3;
-    document.removeEventListener("mousewheel", disableScroll, { passive: false } );
+    document.removeEventListener("mousewheel", disableScroll, { passive: false });
   }
   else {
     //select = -1;
@@ -103,14 +104,14 @@ function ui() {
   textSize(18);
   try {
     if (select == -3) text("", 2, 20);
-    if (select == -2) text("番号:NaN, プレイヤー, " + "X:" + parseInt(player.x) + ", Y:"+ parseInt(player.y) + ", サイズ:20%", 2, 20);
-    if (select == -1) text("番号:未選択, カメラ, " + "X:" + parseInt(global_x) + ", Y:"+ parseInt(global_y) + ", 倍率:" + parseInt(global_s*100) + "%", 2, 20);
-    if (select > -1) text("番号:" + select + ", " + obj_data[select].name + ", " + "X:" + parseInt(obj_data[select].x) + ", Y:"+ parseInt(obj_data[select].y) + ", サイズ:" + parseInt(obj_data[select].s*100) + "%", 2, 20);
+    if (select == -2) text("番号:NaN, プレイヤー, " + "X:" + parseInt(player.x) + ", Y:" + parseInt(player.y) + ", サイズ:20%", 2, 20);
+    if (select == -1) text("番号:未選択, カメラ, " + "X:" + parseInt(global_x) + ", Y:" + parseInt(global_y) + ", 倍率:" + parseInt(global_s * 100) + "%", 2, 20);
+    if (select > -1) text("番号:" + select + ", " + obj_data[select].name + ", " + "X:" + parseInt(obj_data[select].x) + ", Y:" + parseInt(obj_data[select].y) + ", サイズ:" + parseInt(obj_data[select].s * 100) + "%", 2, 20);
   }
   catch {
 
   }
-  
+
 }
 
 function statusbar() {
@@ -120,11 +121,11 @@ function statusbar() {
   fill("#FFF");
 
   setsize();
-    
+
   let x = 0;
-  obj_img_ui.forEach(function(timg) {
-    rect(x*box_size + 10, 450, box_size, box_size);
-    image(timg, x*box_size + 10 + (box_size - timg.width*obj_img_size[x])/2, 450 + (box_size - timg.height*obj_img_size[x])/2, timg.width*obj_img_size[x], timg.height*obj_img_size[x]);
+  obj_img_ui.forEach(function (timg) {
+    rect(x * box_size + 10, 450, box_size, box_size);
+    image(timg, x * box_size + 10 + (box_size - timg.width * obj_img_size[x]) / 2, 450 + (box_size - timg.height * obj_img_size[x]) / 2, timg.width * obj_img_size[x], timg.height * obj_img_size[x]);
     textSize(18);
     text(obj_img[x].name, x * box_size + 10, 545);
     x++;
@@ -133,7 +134,7 @@ function statusbar() {
 
 function setsize() {
   let n = 0;
-  obj_img_ui.forEach(function(timg) {
+  obj_img_ui.forEach(function (timg) {
     let magnification = 1;
     let w = timg.width;
     let h = timg.height;
@@ -152,15 +153,19 @@ function mousePressed() {
   print(parseInt(mouseX) + ", " + parseInt(mouseY));
   mouse_push = true;
 
+  if (mouseX > MAPSIZE_X || mouseX < 0 || mouseY > 590 || mouseY < 0) {
+    return;
+  }
+
   if (mouseX > 0 && mouseX < MAPSIZE_X && mouseY > 0 && mouseY < MAPSIZE_Y) {
     select = -1;
-    document.addEventListener("mousewheel", disableScroll, { passive: false } );
+    document.addEventListener("mousewheel", disableScroll, { passive: false });
   }
 
   let box_size = UI_BOX_SIZE;
   let x = 0;
-  obj_img.forEach(function(timg) {
-    if (mouseX > x*box_size + 10 && mouseX < (x + 1) * box_size + 10 && mouseY > 450 && mouseY < 450 + box_size) {
+  obj_img.forEach(function (timg) {
+    if (mouseX > x * box_size + 10 && mouseX < (x + 1) * box_size + 10 && mouseY > 450 && mouseY < 450 + box_size) {
       obj_data.push(new Obj(timg.name, timg.img));
       select = x;
     }
@@ -177,8 +182,8 @@ function mousePressed() {
     player.select = false;
   }
 
-  obj_data.forEach(function(tobj) {
-    if (mouseX > (tobj.x * global_s + global_x) && mouseX < ((tobj.x * global_s + global_x) + (tobj.w * tobj.s * global_s))  && mouseY > (tobj.y * global_s + global_y) && mouseY < ((tobj.y * global_s + global_y) + (tobj.h * tobj.s * global_s))) {
+  obj_data.forEach(function (tobj) {
+    if (mouseX > (tobj.x * global_s + global_x) && mouseX < ((tobj.x * global_s + global_x) + (tobj.w * tobj.s * global_s)) && mouseY > (tobj.y * global_s + global_y) && mouseY < ((tobj.y * global_s + global_y) + (tobj.h * tobj.s * global_s))) {
       tobj.mouseX_relative = tobj.x - mouseX;
       tobj.mouseY_relative = tobj.y - mouseY;
       tobj.catch = true;
@@ -192,6 +197,7 @@ function mousePressed() {
 }
 
 function mouseReleased() {
+  obj_info(select);
   mouse_push = false;
 }
 
@@ -237,14 +243,14 @@ function keyPressed() {
     global_y = 0;
     global_s = 1.00;
   }
-  
+
   if (key == 'w') contller.w = true;
   if (key == 'a') contller.a = true;
   if (key == 's') contller.s = true;
   if (key == 'd') contller.d = true;
 
   if (select < 0) {
-    
+
   }
   else {
     if (keyCode == 46) obj_data.splice(select, 1);
