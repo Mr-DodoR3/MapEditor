@@ -8,11 +8,13 @@ class Obj {
   s;
   catch;
   select;
+  collision;
 
   black = 100;
   black_plus = 5;
 
   constructor(tname, timg) {
+    this.collision = true;
     this.catch = true;
     this.select = true;
     this.name = tname;

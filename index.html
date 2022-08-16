@@ -1,54 +1,59 @@
 <!DOCTYPE html>
 <html>
-  <head lang="ja">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width-device-width, initial-scale-1.0">
-    <title>マップエディタ</title>
-    <link rel="stylesheet" href="index.css">
-    <script src="https://cdn.jsdelivr.net/npm/p5@0.10.2/lib/p5.js"></script>
-    <script src="main.js"></script>
-    <script src="obj.js"></script>
-    <script src="Contller.js"></script>
-    <script src="Player.js"></script>
-    <script src="Filemanager.js"></script>
-  </head>
-  
-  <body>
-    <h1>マップエディタWeb版1.3β</h1>
-    <p class="top">Webブラウザ上でマップ編集できるようにしました。まぁ、操作方法とかはjar形式版とは全く違う。</p>
-    <div id="canvas_pos"></div>
-    <button href="#" id="link1" onclick="func1()">ダウンロード(txt版)</button>
-    <button href="#" id="link2" onclick="func2()">ダウンロード(csv版)</button>
-    <p class="filetext">画像の読み込み</p><br><br>
-    <!--<input id="input_image" type="file" accept=".png"><br>
+
+<head lang="ja">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width-device-width, initial-scale-1.0">
+  <title>マップエディタ</title>
+  <link rel="stylesheet" href="index.css">
+  <script src="https://cdn.jsdelivr.net/npm/p5@0.10.2/lib/p5.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.js"></script>
+  <script src="main.js"></script>
+  <script src="obj.js"></script>
+  <script src="Contller.js"></script>
+  <script src="Player.js"></script>
+  <script src="Filemanager.js"></script>
+  <script src="Obj_option.js"></script>
+</head>
+
+<body>
+  <h1>マップエディタWeb版1.3β</h1>
+  <p class="top">Webブラウザ上でマップ編集できるようにしました。まぁ、操作方法とかはjar形式版とは全く違う。</p>
+  <div id="canvas_pos"></div>
+  <button href="#" id="link1" onclick="func1()">ダウンロード(txt版)</button>
+  <button href="#" id="link2" onclick="func2()">ダウンロード(csv版)</button>
+  <p class="filetext">画像の読み込み</p><br><br>
+  <!--<input id="input_image" type="file" accept=".png"><br>
     <button href="#" onclick="mouse()">追加</button>-->
-    <div class="manual">
-      <h2>説明</h2>
-      <h3>===マウス操作===</h3>
-      <ul>
-        <li>オブジェクトクリック：クリックしたオブジェクトの選択</li>
-        <li>オブジェクトドラッグ：オブジェクトの移動</li>
-        <li>オブジェクトをステージ外にドラッグ：オブジェクトの削除</li>
-        <li>ドラック(オブジェクト非選択中)：カメラの移動</li>
-        <li>マウスホイール(オブジェクト選択中)：オブジェクトのサイズ変更</li>
-        <li>マウスホイール(オブジェクト非選択中)：カメラの倍率変更</li>
-        <li>ボタンをドラッグ&ドロップ：オブジェクトの新規作成</li>
-      </ul>
-      <h3>===キー操作===</h3>
-      <ul>
-        <li>w,a,s,dキー(オブジェクト選択中)：選択中のオブジェクトを移動(細かな座標の調整にどうぞ)</li>
-        <li>w,a,s,dキー(オブジェクト非選択中)：選択中のオブジェクトを移動(細かな座標の調整にどうぞ)</li>
-        <li>rキー：プレイヤーの位置とカメラの位置、カメラの倍率を初期化(設置したオブジェクトはそのままです)</li>
-        <li>Deleteキー：選択中のオブジェクトを削除</li>
-        <li><span class="del">1,2,3キー：背景の変更</span>この機能は削除しました</li>
-        <li>1キー：背景スクロールON</li>
-        <li>2キー：背景スクロールOFF</li>
-      </ul>
-      <h3>===ダウンロードについて===</h3>
-      <ul>
-        <li>マップエディタ下の「ダウンロード(txt版)」か「ダウンロード(csv版)」をクリックしていただけるとダウンロードできます。</li>
-        <li>txtとcsvの二つがありますが、拡張子が変わるだけなのでどちらをダウンロードしてもらっても大丈夫です。</li>
-      </ul>
-    </div>
-  </body>
+  <div class="manual">
+    <h2>説明</h2>
+    <h3>===マウス操作===</h3>
+    <ul>
+      <li>オブジェクトクリック：クリックしたオブジェクトの選択</li>
+      <li>オブジェクトドラッグ：オブジェクトの移動</li>
+      <li>オブジェクトをステージ外にドラッグ：オブジェクトの削除</li>
+      <li>ドラック(オブジェクト非選択中)：カメラの移動</li>
+      <li>マウスホイール(オブジェクト選択中)：オブジェクトのサイズ変更</li>
+      <li>マウスホイール(オブジェクト非選択中)：カメラの倍率変更</li>
+      <li>ボタンをドラッグ&ドロップ：オブジェクトの新規作成</li>
+    </ul>
+    <h3>===キー操作===</h3>
+    <ul>
+      <li>w,a,s,dキー(オブジェクト選択中)：選択中のオブジェクトを移動(細かな座標の調整にどうぞ)</li>
+      <li>w,a,s,dキー(オブジェクト非選択中)：選択中のオブジェクトを移動(細かな座標の調整にどうぞ)</li>
+      <li>rキー：プレイヤーの位置とカメラの位置、カメラの倍率を初期化(設置したオブジェクトはそのままです)</li>
+      <li>Deleteキー：選択中のオブジェクトを削除</li>
+      <li><span class="del">1,2,3キー：背景の変更</span>この機能は削除しました</li>
+      <li>1キー：背景スクロールON</li>
+      <li>2キー：背景スクロールOFF</li>
+    </ul>
+    <h3>===ダウンロードについて===</h3>
+    <ul>
+      <li>マップエディタ下の「ダウンロード(txt版)」か「ダウンロード(csv版)」をクリックしていただけるとダウンロードできます。</li>
+      <li>txtとcsvの二つがありますが、拡張子が変わるだけなのでどちらをダウンロードしてもらっても大丈夫です。</li>
+    </ul>
+  </div>
+</body>
+
 </html>

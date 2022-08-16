@@ -9,19 +9,31 @@ function settext() {
   txt = "";
   txt += ("[OBJECT_LIST] = " + obj_data.length + "\n");
   for (let i = 0; i < obj_data.length; i++) {
-    txt += (i + ", " + parseInt(obj_data[i].x) + ", " + parseInt(obj_data[i].y) + ", " + obj_data[i].s.toFixed(2) + "\n");
+    txt += (i + ", " + parseInt(obj_data[i].x) + ", " + parseInt(obj_data[i].y) + ", " + obj_data[i].s.toFixed(2) + ", " + obj_data[i].collision + "\n");
   }
 }
 
 function func1() {
+  var zip = new JSZip();
   settext();
-  var blob = new Blob(
+  /*var blob = new Blob(
     [txt],
     { "type": "text/plain" });
   let link = document.createElement('a');
   link.href = window.URL.createObjectURL(blob);
   link.download = "kutc_mapdata.txt";
-  link.click();
+  link.click();*/
+  zip.file("kutc_mapdata.txt", txt);
+  time = 0;
+  obj_img.forEach(function (data) {
+    to_base64 = data.img.canvas.toDataURL().indexOf("base64,") + 7;
+    zip.file(data.name + ".png", data.img.canvas.toDataURL().substring(to_base64), { base64: true })
+    time++;
+  });
+  zip.generateAsync({ type: "blob" })
+    .then(function (content) {
+      saveAs(content, "KUTC.zip");
+    });
 }
 
 function func2() {
