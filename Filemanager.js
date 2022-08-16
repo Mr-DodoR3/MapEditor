@@ -22,13 +22,15 @@ function settext() {
 function func1() {
   var zip = new JSZip();
   settext();
-  /*var blob = new Blob(
+  /*
+  var blob = new Blob(
     [txt],
     { "type": "text/plain" });
   let link = document.createElement('a');
   link.href = window.URL.createObjectURL(blob);
   link.download = "kutc_mapdata.txt";
-  link.click();*/
+  link.click();
+  */
   zip.file("object.txt", object);
   zip.file("object_path.txt", object_path);
   time = 0;
