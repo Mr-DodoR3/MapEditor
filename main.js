@@ -279,6 +279,27 @@ function keyPressed() {
   if (key == 'a') contller.a = true;
   if (key == 's') contller.s = true;
   if (key == 'd') contller.d = true;
+
+  /*
+  if (key == 'n') {
+    if (obj_data.length == 0) select = -1;
+    else if (select >= obj_data.length - 1) obj_data[0].select = true;
+    else {
+      obj_data[select].select = false;
+      obj_data[select + 1].select = true;
+    }
+  }
+  if (key == 'b') {
+    if (obj_data.length == 0) select = -1;
+    else if (select < 0) obj_data[obj_data.length - 1].select = true;
+    else {
+      obj_data[select].select = false;
+      obj_data[select - 1].select = true;
+    }
+  }
+  */
+
+  //if (key == 'b') contller.d = true;
   
   if (key == 't') console.log(obj_data);
 

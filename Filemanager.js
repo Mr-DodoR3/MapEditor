@@ -15,11 +15,7 @@ function settext() {
     object_path += (i + "," + obj_img[i].name + ".png\n");
   }
   for (let i = 0; i < obj_data.length; i++) {
-<<<<<<< HEAD
-    txt += (obj_data[i].imgnum + ", " + parseInt(obj_data[i].x) + ", " + parseInt(obj_data[i].y) + ", " + obj_data[i].s.toFixed(2) + ", " + obj_data[i].collision + "\n");
-=======
-    object += (i + ", " + parseInt(obj_data[i].x) + ", " + parseInt(obj_data[i].y) + ", " + obj_data[i].s.toFixed(2) + ", " + obj_data[i].collision + "\n");
->>>>>>> ae571c4819338b5928f91ba1e6ed02df92978640
+    object += (obj_data[i].imgnum + ", " + parseInt(obj_data[i].x) + ", " + parseInt(obj_data[i].y) + ", " + (obj_data[i].name == "地面" ? parseInt(obj_data[i].w) : obj_data[i].s.toFixed(2)) + ", " + obj_data[i].collision + "\n");
   }
 }
 

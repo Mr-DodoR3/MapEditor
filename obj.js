@@ -35,11 +35,12 @@ class Obj {
       this.select = false;
       this.name = obj_img[this.imgnum].name;
       this.img = obj_img[this.imgnum].img;
-      this.w = this.img.width;
+      this.w = (this.name == "地面" ? parseInt(tarray[3], 10) : this.img.width);
       this.h = this.img.height;
       this.x = parseInt(tarray[1], 10);
       this.y = parseInt(tarray[2], 10);
-      this.s = parseFloat(tarray[3], 10);
+      this.s = (this.name == "地面" ? 1.0 : parseFloat(tarray[3], 10));
+      //if (this.name == "地面") console.log(this.w + ", " + tarray[3]);
     }
     else {
       alert("ERROR");
