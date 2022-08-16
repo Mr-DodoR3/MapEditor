@@ -9,7 +9,7 @@ function settext() {
   txt = "";
   txt += ("[OBJECT_LIST] = " + obj_data.length + "\n");
   for (let i = 0; i < obj_data.length; i++) {
-    txt += (i + ", " + parseInt(obj_data[i].x) + ", " + parseInt(obj_data[i].y) + ", " + obj_data[i].s.toFixed(2) + ", " + obj_data[i].collision + "\n");
+    txt += (obj_data[i].imgnum + ", " + parseInt(obj_data[i].x) + ", " + parseInt(obj_data[i].y) + ", " + obj_data[i].s.toFixed(2) + ", " + obj_data[i].collision + "\n");
   }
 }
 
@@ -51,8 +51,8 @@ function func2() {
 function init_file() {
   img = createFileInput(add_image);
   button = createButton("追加")
-  button.position(0, 840)
-  img.position(0, 810);
+  button.position(0, 890)
+  img.position(0, 860);
   button.mousePressed(mouse);
 }
 

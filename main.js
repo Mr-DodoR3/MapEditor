@@ -1,4 +1,5 @@
 var canvas;
+var mode = 0;
 
 var back_img = [];
 var back_img_num = 0;
@@ -25,6 +26,8 @@ var contller;
 const UI_BOX_SIZE = 80;
 const MAPSIZE_X = 7680;
 const MAPSIZE_Y = 2160;
+
+var mapdataForLoading = [];
 
 function setup() {
   init_file();
@@ -66,12 +69,19 @@ function setup() {
 }
 
 function draw() {
-  background("#222");
+  background(mode == 0 ? "#222" : "#DDD");
+  if (mode == 0) {
+    image(back_img[0], global_x, global_y, back_img[0].width * global_s, back_img[0].height * global_s);
+  }
+  else {
+    fill("#FFF")
+    rect(global_x, global_y, back_img[0].width * global_s, back_img[0].height * global_s);
+  }
+
   if (mouse_push && select == -1) {
     global_x += mouseX - bmouseX;
     global_y += mouseY - bmouseY;
   }
-  image(back_img[0], global_x, global_y, back_img[0].width * global_s, back_img[0].height * global_s);
   //image(back_img[1], global_x, global_y - 50, back_img[1].width * global_s, back_img[1].height * global_s);
   player.loop(mouse_push);
 
@@ -85,11 +95,16 @@ function draw() {
   };
 
   if (player.select) select = -2;
-  for (let i = 0; i < obj_data.length; i++) {
-    if (obj_data[i].select) select = i;
-    if (obj_data[i].loop(mouse_push)) {
-      obj_data.splice(i, 1);
+  try {
+    for (let i = 0; i < obj_data.length; i++) {
+      if (obj_data[i].select) select = i;
+      if (obj_data[i].loop(mouse_push)) {
+        obj_data.splice(i, 1);
+      }
     }
+  }
+  catch(e) {
+
   }
   ui();
   statusbar();
@@ -100,13 +115,13 @@ function draw() {
 }
 
 function ui() {
-  fill("#FFF");
+  fill(mode == 0 ? "#FFF" : "#222");
   textSize(18);
   try {
     if (select == -3) text("", 2, 20);
-    if (select == -2) text("番号:NaN, プレイヤー, " + "X:" + parseInt(player.x) + ", Y:" + parseInt(player.y) + ", サイズ:20%", 2, 20);
-    if (select == -1) text("番号:未選択, カメラ, " + "X:" + parseInt(global_x) + ", Y:" + parseInt(global_y) + ", 倍率:" + parseInt(global_s * 100) + "%", 2, 20);
-    if (select > -1) text("番号:" + select + ", " + obj_data[select].name + ", " + "X:" + parseInt(obj_data[select].x) + ", Y:" + parseInt(obj_data[select].y) + ", サイズ:" + parseInt(obj_data[select].s * 100) + "%", 2, 20);
+    if (select == -2) text("番号:NaN, プレイヤー, " + "X:" + parseInt(player.x) + ", Y:" + parseInt(player.y) + ", サイズ:100%, 衝突判定:False", 2, 20);
+    if (select == -1) text("番号:未選択, カメラ, " + "X:" + parseInt(global_x) + ", Y:" + parseInt(global_y) + ", 倍率:" + parseInt(global_s * 100) + "%, 衝突判定:False", 2, 20);
+    if (select > -1) text("番号:" + select + ", " + obj_data[select].name + ", " + "X:" + parseInt(obj_data[select].x) + ", Y:" + parseInt(obj_data[select].y) + ", " + (obj_data[select].name == "地面" ? ("横幅:" + (parseInt(obj_data[select].w)) + "px") : ("サイズ:" + (parseInt(obj_data[select].s * 100)) + "%")) + ", 衝突判定:" + (obj_data[select].collision ? "True" : "False"), 2, 20);
   }
   catch {
 
@@ -166,7 +181,8 @@ function mousePressed() {
   let x = 0;
   obj_img.forEach(function (timg) {
     if (mouseX > x * box_size + 10 && mouseX < (x + 1) * box_size + 10 && mouseY > 450 && mouseY < 450 + box_size) {
-      obj_data.push(new Obj(timg.name, timg.img));
+      let tarray = [x, timg.name, timg.img];
+      obj_data.push(new Obj("new", tarray));
       select = x;
     }
     x++;
@@ -184,8 +200,8 @@ function mousePressed() {
 
   obj_data.forEach(function (tobj) {
     if (mouseX > (tobj.x * global_s + global_x) && mouseX < ((tobj.x * global_s + global_x) + (tobj.w * tobj.s * global_s)) && mouseY > (tobj.y * global_s + global_y) && mouseY < ((tobj.y * global_s + global_y) + (tobj.h * tobj.s * global_s))) {
-      tobj.mouseX_relative = tobj.x - mouseX;
-      tobj.mouseY_relative = tobj.y - mouseY;
+      //tobj.mouseX_relative = tobj.x - mouseX;
+      //tobj.mouseY_relative = tobj.y - mouseY;
       tobj.catch = true;
       tobj.select = true;
       temp = true;
@@ -209,20 +225,38 @@ function mouseWheel(event) {
     }
     let percent_x = mouseX / width;
     let percent_y = mouseY / (height - 150);
-    global_x += (MAPSIZE_X * global_s - MAPSIZE_X * tglobal_s) * percent_x;
-    global_y += (MAPSIZE_Y * global_s - MAPSIZE_Y * tglobal_s) * percent_y;
+    if (tglobal_s < 0) {
+      global_x += (MAPSIZE_X * tglobal_s - MAPSIZE_X * global_s) * percent_x;
+      global_y += (MAPSIZE_Y * tglobal_s - MAPSIZE_Y * global_s) * percent_y;
+    }
+    else {
+      global_x += (MAPSIZE_X * global_s - MAPSIZE_X * tglobal_s) * percent_x;
+      global_y += (MAPSIZE_Y * global_s - MAPSIZE_Y * tglobal_s) * percent_y;
+    }
     global_s = tglobal_s;
   }
   for (let i = 0; i < obj_data.length; i++) {
     if (i == select) {
-      let stemp = obj_data[i].s;
-      obj_data[i].s = obj_data[i].s + event.delta / 12500;
-      if (obj_data[i].s < 0.02) {
-        obj_data[i].s = 0.01;
+      if (obj_data[i].name == "地面") {
+        let wtemp = obj_data[i].w;
+        obj_data[i].w = obj_data[i].w + (event.delta / 125) * 10;
+        if (obj_data[i].w < 9) {
+          obj_data[i].w = 10;
+        }
+        else {
+          obj_data[i].x += (wtemp - obj_data[i].w) / 2;
+        }
       }
       else {
-        obj_data[i].x += (obj_data[i].w * stemp - obj_data[i].w * obj_data[i].s) / 2;
-        obj_data[i].y += (obj_data[i].h * stemp - obj_data[i].h * obj_data[i].s) / 2;
+        let stemp = obj_data[i].s;
+        obj_data[i].s = obj_data[i].s + event.delta / 12500;
+        if (obj_data[i].s < 0.02) {
+          obj_data[i].s = 0.01;
+        }
+        else {
+          obj_data[i].x += (obj_data[i].w * stemp - obj_data[i].w * obj_data[i].s) / 2;
+          obj_data[i].y += (obj_data[i].h * stemp - obj_data[i].h * obj_data[i].s) / 2;
+        }
       }
     }
   }
@@ -230,24 +264,23 @@ function mouseWheel(event) {
 
 function keyPressed() {
   print(keyCode);
-  /*
-  if (key == '1') back_img_num = 0;
-  if (key == '2') back_img_num = 1;
-  if (key == '3') back_img_num = 2;
-  */
+  if (key == '1') mode = 0;
+  if (key == '2') mode = 1;
 
   if (key == 'r') {
     player.x = 30;
-    player.y = 1935;
+    player.y = 1780;
     global_x = 0;
     global_y = 0;
-    global_s = 1.00;
+    global_s = 0.20;
   }
 
   if (key == 'w') contller.w = true;
   if (key == 'a') contller.a = true;
   if (key == 's') contller.s = true;
   if (key == 'd') contller.d = true;
+  
+  if (key == 't') console.log(obj_data);
 
   if (select < 0) {
 

@@ -18,14 +18,17 @@
 </head>
 
 <body>
-  <h1>マップエディタWeb版1.3β</h1>
+  <h1>マップエディタWeb版1.4β</h1>
   <p class="top">Webブラウザ上でマップ編集できるようにしました。まぁ、操作方法とかはjar形式版とは全く違う。</p>
   <div id="canvas_pos"></div>
   <button href="#" id="link1" onclick="func1()">ダウンロード(txt版)</button>
   <button href="#" id="link2" onclick="func2()">ダウンロード(csv版)</button>
+  <p class="filetext">マップデータの読み込み</p>
+  <input id="csv_file" type="file">
   <p class="filetext">画像の読み込み</p><br><br>
   <!--<input id="input_image" type="file" accept=".png"><br>
     <button href="#" onclick="mouse()">追加</button>-->
+  <script src="ImportFilemanager.js"></script>
   <div class="manual">
     <h2>説明</h2>
     <h3>===マウス操作===</h3>
@@ -45,8 +48,8 @@
       <li>rキー：プレイヤーの位置とカメラの位置、カメラの倍率を初期化(設置したオブジェクトはそのままです)</li>
       <li>Deleteキー：選択中のオブジェクトを削除</li>
       <li><span class="del">1,2,3キー：背景の変更</span>この機能は削除しました</li>
-      <li>1キー：背景スクロールON</li>
-      <li>2キー：背景スクロールOFF</li>
+      <li>1キー：背景をゲームの背景にする</li>
+      <li>2キー：背景を白くする</li>
     </ul>
     <h3>===ダウンロードについて===</h3>
     <ul>

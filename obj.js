@@ -1,4 +1,5 @@
 class Obj {
+  imgnum;
   name;
   img;
   x;
@@ -13,7 +14,40 @@ class Obj {
   black = 100;
   black_plus = 5;
 
-  constructor(tname, timg) {
+  constructor(check, tarray) {
+    if (check == "new") {
+      this.imgnum = tarray[0];
+      this.collision = true;
+      this.catch = true;
+      this.select = true;
+      this.name = tarray[1];
+      this.img = tarray[2];
+      this.w = this.img.width;
+      this.h = this.img.height;
+      this.x = (mouseX - this.w * global_s / 4 - global_x) / global_s;
+      this.y = (mouseY - this.h * global_s / 4 - global_y) / global_s;
+      this.s = 1.0;
+    }
+    else if (check == "load") {
+      this.imgnum = tarray[0];
+      this.collision = tarray[4];
+      this.catch = false;
+      this.select = false;
+      this.name = obj_img[this.imgnum].name;
+      this.img = obj_img[this.imgnum].img;
+      this.w = this.img.width;
+      this.h = this.img.height;
+      this.x = parseInt(tarray[1], 10);
+      this.y = parseInt(tarray[2], 10);
+      this.s = parseFloat(tarray[3], 10);
+    }
+    else {
+      alert("ERROR");
+    }
+  }
+/*
+  constructor(timgnum, tname, timg) {
+    this.imgnum = timgnum;
     this.collision = true;
     this.catch = true;
     this.select = true;
@@ -25,7 +59,21 @@ class Obj {
     this.y = (mouseY - this.h * global_s / 4 - global_y) / global_s;
     this.s = 1.0;
   }
-
+  
+  constructor(ta, tx, ty, ts, tc) {
+    this.imgnum = ta;
+    this.collision = tc;
+    this.catch = false;
+    this.select = false;
+    this.name = obj_img[this.imgnum].name;
+    this.image = obj_img[this.imgnum].image;
+    this.w = this.img.width;
+    this.h = this.img.height;
+    this.x = tx;
+    this.y = ty;
+    this.s = ts;
+  }
+  */
   loop(push) {
     this.black += this.black_plus;
     if (this.black < 100 || this.black > 254) {
@@ -43,7 +91,7 @@ class Obj {
       //this.y = mouseY + this.mouseY_relative;
       if (!(push)) {
         this.catch = false;
-        if (this.x < 0 || this.x + this.w * this.s > MAPSIZE_X || this.y + this.h * this.s < 0 || this.y > MAPSIZE_Y) {
+        if (this.x + this.w * this.s < 0 || this.x > MAPSIZE_X || this.y + this.h * this.s < 0 || this.y > MAPSIZE_Y) {
           return true;
         }
       }

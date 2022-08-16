@@ -15,7 +15,7 @@ class Player {
   constructor(timg) {
     this.img = timg;
     this.x = 30;
-    this.y = 1935;
+    this.y = 1780;
     this.catch = false;
     this.select = false;
   }
@@ -27,8 +27,8 @@ class Player {
     }
     if (this.select) tint(this.black, this.black, this.black);
     else tint(255, 255, 255);
-    this.w = this.img.width / 5;
-    this.h = this.img.height / 5;
+    this.w = this.img.width;
+    this.h = this.img.height;
     image(this.img, this.x * global_s + global_x, this.y * global_s + global_y, this.w * global_s, this.h * global_s);
     noTint();
     
@@ -41,7 +41,7 @@ class Player {
         this.catch = false;
         if (this.x < 0 || this.x + this.w > MAPSIZE_X || this.y + this.h < 0 || this.y > MAPSIZE_Y) {
           this.x = 30;
-          this.y = 1935;
+          this.y = 1780;
         }
       }
     }
