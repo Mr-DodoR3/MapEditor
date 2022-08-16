@@ -2,14 +2,20 @@
 //参考--https://developer.mozilla.org/ja/docs/Web/API/Blob//
 //参考--https://qiita.com/wadahiro/items/eb50ac6bbe2e18cf8813//
 
-let txt;
+let object;
+let object_path;
 let input_image = document.getElementById("input_image");
 
 function settext() {
-  txt = "";
-  txt += ("[OBJECT_LIST] = " + obj_data.length + "\n");
+  object = "";
+  object_path = "";
+  object_path += ("[OBJECT_PATH]\n")
+  object += ("[OBJECT_LIST] = " + obj_data.length + "\n");
+  for (let i = 0; i < obj_img.length; i++) {
+    object_path += (i + "," + obj_img[i].name + ".png\n");
+  }
   for (let i = 0; i < obj_data.length; i++) {
-    txt += (i + ", " + parseInt(obj_data[i].x) + ", " + parseInt(obj_data[i].y) + ", " + obj_data[i].s.toFixed(2) + ", " + obj_data[i].collision + "\n");
+    object += (i + ", " + parseInt(obj_data[i].x) + ", " + parseInt(obj_data[i].y) + ", " + obj_data[i].s.toFixed(2) + ", " + obj_data[i].collision + "\n");
   }
 }
 
@@ -23,7 +29,8 @@ function func1() {
   link.href = window.URL.createObjectURL(blob);
   link.download = "kutc_mapdata.txt";
   link.click();*/
-  zip.file("kutc_mapdata.txt", txt);
+  zip.file("object.txt", object);
+  zip.file("object_path.txt", object_path);
   time = 0;
   obj_img.forEach(function (data) {
     to_base64 = data.img.canvas.toDataURL().indexOf("base64,") + 7;
@@ -40,7 +47,7 @@ function func2() {
   settext();
   let bom = new Uint8Array([0xEF, 0xBB, 0xBF]);;
   var blob = new Blob(
-    [bom, txt],
+    [bom, object],
     { "type": "text/csv" });
   let link = document.createElement('a');
   link.href = window.URL.createObjectURL(blob);
