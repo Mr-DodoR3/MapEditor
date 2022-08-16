@@ -1,5 +1,7 @@
 var canvas;
 var mode = 0;
+var page = 0;
+const MAX_PAGE = 1;
 
 var back_img = [];
 var back_img_num = 0;
@@ -50,6 +52,22 @@ function setup() {
   obj_img.push({ name: "トラック", img: loadImage("image/torakku1.png") });
   obj_img.push({ name: "自販機", img: loadImage("image/zihannki1.png") });
   obj_img.push({ name: "地面", img: loadImage("image/zimenn.png") });
+  obj_img.push({ name: "看板", img: loadImage("image/signboard.png") });
+  obj_img.push({ name: "バス", img: loadImage("image/basu1.png") });
+  obj_img.push({ name: "ゴミ箱1", img: loadImage("image/garbage1.png") });
+  obj_img.push({ name: "ゴミ箱2", img: loadImage("image/garbage2.png") });
+  obj_img.push({ name: "ドローン1", img: loadImage("image/drone1.png") });
+  obj_img.push({ name: "ドローン2", img: loadImage("image/drone2.png") });
+  obj_img.push({ name: "ビル1", img: loadImage("image/building1.png") });
+  obj_img.push({ name: "ビル2", img: loadImage("image/building2.png") });
+  obj_img.push({ name: "ビル3", img: loadImage("image/building3.png") });
+  obj_img.push({ name: "ビル4", img: loadImage("image/building4.png") });
+  obj_img.push({ name: "ビル5", img: loadImage("image/building5.png") });
+  obj_img.push({ name: "公衆電話", img: loadImage("image/phonebox.png") });
+  obj_img.push({ name: "信号1", img: loadImage("image/signal.png") });
+  obj_img.push({ name: "信号2", img: loadImage("image/signal2.png") });
+  obj_img.push({ name: "レーザー", img: loadImage("image/laser.png") });
+  
 
   obj_img.forEach(function (timg) {
     obj_img_ui.push(timg.img);
@@ -130,6 +148,7 @@ function ui() {
 }
 
 function statusbar() {
+  textSize(16);
   fill("#000");
   rect(0, 440, width, 150);
   let box_size = UI_BOX_SIZE;
@@ -137,14 +156,28 @@ function statusbar() {
 
   setsize();
 
-  let x = 0;
+  rect(10, 450, box_size, box_size / 2 - 1);
+  rect(10, 451 + box_size / 2, box_size, box_size / 2 - 1);
+  fill("#000");
+  textSize(16);
+  text("前のページ", 10, 475);
+  text("次のページ", 10, 515);
+  fill("#FFF");
+  for (let i = 0; i < ((obj_img_ui.length - page * 17) > 17 ? 17 : (obj_img_ui.length - page * 17)); i++) {
+    let p = page * 17;
+    let ipuls = i + p;
+    rect(i * box_size + 90, 450, box_size, box_size);
+    image(obj_img_ui[ipuls], i * box_size + 90 + (box_size - obj_img_ui[ipuls].width * obj_img_size[ipuls]) / 2, 450 + (box_size - obj_img_ui[ipuls].height * obj_img_size[ipuls]) / 2, obj_img_ui[ipuls].width * obj_img_size[ipuls], obj_img_ui[ipuls].height * obj_img_size[ipuls]);
+    text(obj_img[ipuls].name, i * box_size + 90, 545);
+  }
+  /*
   obj_img_ui.forEach(function (timg) {
-    rect(x * box_size + 10, 450, box_size, box_size);
-    image(timg, x * box_size + 10 + (box_size - timg.width * obj_img_size[x]) / 2, 450 + (box_size - timg.height * obj_img_size[x]) / 2, timg.width * obj_img_size[x], timg.height * obj_img_size[x]);
+    rect(i * box_size + 90, 450, box_size, box_size);
+    image(timg, i * box_size + 90 + (box_size - timg.width * obj_img_size[i]) / 2, 450 + (box_size - timg.height * obj_img_size[i]) / 2, timg.width * obj_img_size[i], timg.height * obj_img_size[i]);
     textSize(18);
-    text(obj_img[x].name, x * box_size + 10, 545);
-    x++;
+    text(obj_img[i].name, i * box_size + 90, 545);
   });
+  */
 }
 
 function setsize() {
@@ -178,6 +211,21 @@ function mousePressed() {
   }
 
   let box_size = UI_BOX_SIZE;
+  if (mouseX > 10 && mouseX < 1 * box_size + 10 && mouseY > 450 + box_size / 2 && mouseY < 450 + box_size) {
+    if (page >= MAX_PAGE) page = 0;
+    else page++;
+  }
+  if (mouseX > 10 && mouseX < 1 * box_size + 10 && mouseY > 450 && mouseY < 450 + box_size - box_size / 2) {
+    if (page <= 0) page = MAX_PAGE;
+    else page--;
+  }
+  for (let i = 0; i < ((obj_img_ui.length - page * 17) > 17 ? 17 : (obj_img_ui.length - page * 17)); i++) {
+    if (mouseX > i * box_size + 90 && mouseX < (i + 1) * box_size + 90 && mouseY > 450 && mouseY < 450 + box_size) {
+      let p = page * 17;
+      let tarray = [i + p, obj_img[i + p].name, obj_img[i + p].img];
+      obj_data.push(new Obj("new", tarray));
+    }
+  }/*
   let x = 0;
   obj_img.forEach(function (timg) {
     if (mouseX > x * box_size + 10 && mouseX < (x + 1) * box_size + 10 && mouseY > 450 && mouseY < 450 + box_size) {
@@ -186,7 +234,7 @@ function mousePressed() {
       select = x;
     }
     x++;
-  });
+  });*/
 
   if (mouseX > (player.x * global_s + global_x) && mouseX < ((player.x * global_s + global_x) + (player.w * global_s)) && mouseY > (player.y * global_s + global_y) && mouseY < (player.y * global_s + global_y) + (player.h * global_s)) {
     player.mouseX_relative = player.x - mouseX;
