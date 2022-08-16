@@ -57,7 +57,7 @@ function setup() {
   canvas.parent(result);
   global_x = 0;
   global_y = 0;
-  global_s = 1.00;
+  global_s = 0.20;
 
   //obj_data.push(new obj(obj_img[0].img));
   player = new Player(player_img);
@@ -71,7 +71,7 @@ function draw() {
     global_y += mouseY - bmouseY;
   }
   image(back_img[0], global_x, global_y, back_img[0].width * global_s, back_img[0].height * global_s);
-  //image(back_img[1], global_x, 0 - MAPSIZE_Y -  * global_s, back_img[1].width * global_s, back_img[1].height * global_s);
+  //image(back_img[1], global_x, global_y - 50, back_img[1].width * global_s, back_img[1].height * global_s);
   player.loop(mouse_push);
 
   if (mouseX < 0 || mouseX > window || mouseY < 0 || mouseY > height) {
