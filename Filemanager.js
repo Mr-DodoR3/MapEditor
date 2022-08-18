@@ -4,7 +4,6 @@
 
 let object;
 let object_path;
-let input_image = document.getElementById("input_image");
 
 function settext() {
   object = "";
@@ -58,21 +57,26 @@ function func2() {
 }
 
 function init_file() {
+  /*
   img = createFileInput(add_image);
   button = createButton("追加")
-  button.position(0, 890)
-  img.position(0, 860);
+  button.position(0, 920);
+  img.position(0, 890);
   button.mousePressed(mouse);
+  */
 }
 
+/*
 function add_image(file) {
   if (file.type === "image") {
     selecting_file = file;
   }
 }
+*/
 
 function mouse() {
   if (selecting_file) {
+    console.log(selecting_file.data);
     img = createImg(selecting_file.data, '');
     img.hide();
     obj_img.push({ name: selecting_file.name, img: img });

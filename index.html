@@ -23,11 +23,13 @@
   <div id="canvas_pos"></div>
   <button href="#" id="link1" onclick="func1()">ダウンロード(zip版)</button>
   <button href="#" id="link2" onclick="func2()">ダウンロード(csv版)</button>
-  <p class="filetext">マップデータの読み込み</p>
-  <input id="csv_file" type="file">
-  <p class="filetext">画像の読み込み</p><br><br>
-  <!--<input id="input_image" type="file" accept=".png"><br>
-    <button href="#" onclick="mouse()">追加</button>-->
+  <p class="filetext">マップデータの読み込み<br>
+    ※object_path.txtファイルを選択してマップを読み込みます。</p>
+  <input id="csv_file" type="file" accept=".txt,.csv">
+  <p class="filetext">画像の読み込み</p>
+  <input id="input_image" type="file" accept=".png" class="indent"><br>
+  <button href="#" onclick="mouse()">追加</button>
+  <p id="check_W_H"></p>
   <script src="ImportFilemanager.js"></script>
   <div class="manual">
     <h2>説明</h2>
@@ -54,7 +56,9 @@
     <h3>===ダウンロードについて===</h3>
     <ul>
       <li>マップエディタ下の「ダウンロード(zip版)」か「ダウンロード(csv版)」をクリックしていただけるとダウンロードできます。</li>
-      <span class="del"><li>txtとcsvの二つがありますが、拡張子が変わるだけなのでどちらをダウンロードしてもらっても大丈夫です。</li></span>
+      <span class="del">
+        <li>txtとcsvの二つがありますが、拡張子が変わるだけなのでどちらをダウンロードしてもらっても大丈夫です。</li>
+      </span>
       <li>画像、パス記述なども含まれている「zip版」推奨です。</li>
     </ul>
   </div>

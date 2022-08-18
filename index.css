@@ -17,7 +17,8 @@ h2 {
   margin-bottom: 4px;
 }
 
-h3, ul {
+h3,
+ul {
   margin-top: 4px;
   margin-bottom: 4px;
 }
@@ -50,4 +51,8 @@ p {
 
 .del {
   text-decoration: line-through;
+}
+
+.indent {
+  line-height: 250%;
 }
