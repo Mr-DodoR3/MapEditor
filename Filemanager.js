@@ -14,7 +14,7 @@ function settext() {
     object_path += (i + "," + obj_img[i].name + ".png\n");
   }
   for (let i = 0; i < obj_data.length; i++) {
-    object += (obj_data[i].imgnum + ", " + parseInt(obj_data[i].x) + ", " + parseInt(obj_data[i].y) + ", " + (obj_data[i].name == "地面" ? parseInt(obj_data[i].w) : obj_data[i].s.toFixed(2)) + ", " + obj_data[i].collision + "\n");
+    object += (obj_data[i].imgnum + ", " + parseInt(obj_data[i].x) + ", " + parseInt(obj_data[i].y) + ", " + obj_data[i].s.toFixed(2) + ", " + obj_data[i].collision + "\n");
   }
 }
 
